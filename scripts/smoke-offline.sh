@@ -5,7 +5,7 @@
 set -eu
 cd "$(dirname "$0")/.."
 
-cargo build --release -p bicmath-cli
+cargo build --release -p bicmath
 
 BICMATH=target/release/bicmath
 

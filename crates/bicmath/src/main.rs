@@ -503,7 +503,7 @@ fn serve_http(engine: Engine, config: McpConfig, bind: &str) -> Result<(), CliEr
 fn serve_http(_engine: Engine, _config: McpConfig, _bind: &str) -> Result<(), CliError> {
     Err(CliError::Configuration(
         "this build was compiled without the \"http\" feature; rebuild with \
-         `cargo build --features bicmath-cli/http`"
+         `cargo build --features bicmath/http`"
             .to_string(),
     ))
 }

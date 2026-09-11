@@ -1,9 +1,13 @@
 [package]
-name = "bicmath-cli"
+name = "bicmath"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
 description = "The BicMath command line interface and native MCP server."
 
 [[bin]]

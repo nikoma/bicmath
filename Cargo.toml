@@ -10,7 +10,7 @@ members = [
     "crates/bicmath-linear-algebra",
     "crates/bicmath-engine",
     "crates/bicmath-mcp",
-    "crates/bicmath-cli",
+    "crates/bicmath",
     "crates/bicmath-wasm",
     "crates/bicmath-interval",
     "crates/bicmath-verify",
@@ -32,7 +32,7 @@ default-members = [
     "crates/bicmath-linear-algebra",
     "crates/bicmath-engine",
     "crates/bicmath-mcp",
-    "crates/bicmath-cli",
+    "crates/bicmath",
 ]
 
 [workspace.package]
@@ -41,6 +41,10 @@ edition = "2024"
 rust-version = "1.88"
 license = "MIT"
 authors = ["Nikolai Manek"]
+repository = "https://github.com/nikoma/bicmath"
+homepage = "https://github.com/nikoma/bicmath"
+keywords = ["mathematics", "statistics", "finance", "mcp", "computation"]
+categories = ["mathematics", "science", "finance", "command-line-utilities"]
 description = "A modular computation engine and MCP server for mathematics, statistics, science, and business finance."
 
 [workspace.dependencies]
@@ -92,10 +96,3 @@ strip = "debuginfo"
 [profile.bench]
 lto = "thin"
 
-[package]
-name = "bicdb"
-version = "0.1.0"
-
-[[bin]]
-name = "bicdb"
-path = "src/main.rs"

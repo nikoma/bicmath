@@ -71,8 +71,11 @@ cargo build --workspace
 # Optimized release build
 cargo build --release
 
-# Optional: install the `bicmath` binary into ~/.cargo/bin
-cargo install --path crates/bicmath-cli
+# Install the `bicmath` command from this checkout
+cargo install --path crates/bicmath
+
+# Or, once the crate is published to crates.io
+cargo install bicmath
 ```
 
 The native binary is `target/release/bicmath`. `bicmath doctor` verifies the
@@ -179,7 +182,7 @@ The client spawns the process; nothing needs to be left running.
 ### Streamable HTTP (optional)
 
 ```sh
-cargo build --release --features bicmath-cli/http
+cargo build --release --features bicmath/http
 ./target/release/bicmath serve --transport http --bind 127.0.0.1:8080
 # MCP endpoint: http://127.0.0.1:8080/mcp
 ```
@@ -366,7 +369,7 @@ inputs by default. See [docs/limits.md](docs/limits.md) and
 ./scripts/check.sh          # fmt, clippy -D warnings, tests, feature matrix, docs, wasm smoke
 ./scripts/smoke-offline.sh  # release CLI offline smoke test
 cargo test --workspace
-cargo test -p bicmath-cli --features http   # MCP stdio + Streamable HTTP interop
+cargo test -p bicmath --features http   # MCP stdio + Streamable HTTP interop
 ```
 
 The suite includes hand-checkable and published reference values, property
@@ -388,7 +391,7 @@ crates/bicmath-units           unit catalog and dimensional algebra
 crates/bicmath-linear-algebra  vectors, matrices, decompositions, solving
 crates/bicmath-engine          registry, validation, expressions, batches, receipts
 crates/bicmath-mcp             MCP transport and schema adapters
-crates/bicmath-cli             native executable and MCP server
+crates/bicmath                 native executable and MCP server
 crates/bicmath-wasm            browser bindings
 docs/                          architecture, numerics, limits, MCP, reproducibility, methods
 examples/                      MCP config, WASM page/worker/smoke, Rust embedding

@@ -4,7 +4,7 @@
 
 ```
                 +-------------------------------------------+
-                | bicmath-cli   bicmath-mcp   bicmath-wasm  |
+                | bicmath   bicmath-mcp   bicmath-wasm  |
                 +---------------------+---------------------+
                                       |
                               bicmath-engine
@@ -142,7 +142,7 @@ any example does not run.
 - `bicmath-mcp` runs CPU work on bounded blocking workers, bridges MCP
   cancellation to the engine token, and generates tool schemas from the same
   descriptors.
-- `bicmath-cli` is the native executable; JSON is the default output.
+- `bicmath` is the native executable; JSON is the default output.
 - `bicmath-wasm` exposes the engine to JavaScript with string-safe exact
   payloads.
 

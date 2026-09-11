@@ -50,7 +50,7 @@ Initial release candidate.
 - `bicmath-mcp`: official SDK (`rmcp` 3.2.0) adapter with compact and expanded
   tool profiles, stdio by default, optional Streamable HTTP, structured
   results and errors, annotations, cancellation bridging, and bounded workers.
-- `bicmath-cli`: `serve`, `modules`, `functions`, `describe`, `calculate`,
+- `bicmath`: `serve`, `modules`, `functions`, `describe`, `calculate`,
   `evaluate`, `batch`, `replay`, `doctor`, `config`, and `docs`.
 - `bicmath-wasm`: browser bindings with string-safe exact values, a Node smoke
   test, and a Web Worker browser example.
@@ -98,4 +98,4 @@ Initial release candidate.
   platforms.
 - No symbolic algebra, proofs, general equation solving, eigenvalues, SVD,
   sparse solvers, GPU support, or Bayesian inference in this release.
-- `bicmath-cli` HTTP transport is behind the `http` Cargo feature.
+- `bicmath` HTTP transport is behind the `http` Cargo feature.

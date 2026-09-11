@@ -12,7 +12,7 @@ BicMath uses the official Rust SDK (`rmcp`) pinned to a stable release:
 
 `Cargo.lock` is committed. The end-to-end tests spawn the real binary and
 exercise both lifecycles through a real MCP client
-(`crates/bicmath-cli/tests/mcp_stdio.rs`).
+(`crates/bicmath/tests/mcp_stdio.rs`).
 
 Other SDK revisions may work through the SDK's compatibility layer, but only
 the two above are promised. Do not assume every revision uses the same startup

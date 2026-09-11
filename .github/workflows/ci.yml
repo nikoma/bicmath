@@ -36,10 +36,10 @@ jobs:
           cargo build -p bicmath-engine --no-default-features
           cargo build --workspace
       - name: HTTP feature
-        run: cargo build -p bicmath-cli --features http
+        run: cargo build -p bicmath --features http
       - name: Generated docs are current
         run: |
-          cargo run -q -p bicmath-cli -- docs --out docs/methods
+          cargo run -q -p bicmath -- docs --out docs/methods
           git diff --exit-code -- docs/methods
       - name: License report is current
         run: |
@@ -54,7 +54,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.96.0
       - uses: Swatinem/rust-cache@v2
       - name: Legacy and modern lifecycles
-        run: cargo test -p bicmath-cli --test mcp_stdio
+        run: cargo test -p bicmath --test mcp_stdio
 
   wasm:
     name: WASM build and JS smoke test

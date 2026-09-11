@@ -4,8 +4,11 @@ version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
 description = "Core numeric contract, values, schemas, limits, and function contracts for BicMath."
-repository = "https://example.invalid/bicmath"
 
 [dependencies]
 serde.workspace = true

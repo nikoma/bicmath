@@ -2,7 +2,7 @@
 FROM rust:1.96-slim AS builder
 WORKDIR /build
 COPY . .
-RUN cargo build --release -p bicmath-cli --features bicmath-cli/http
+RUN cargo build --release -p bicmath --features bicmath/http
 
 FROM debian:bookworm-slim
 RUN useradd --system --uid 10001 --create-home bicmath

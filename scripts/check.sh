@@ -16,7 +16,7 @@ echo "==> doc tests"
 cargo test --workspace --doc
 
 echo "==> MCP HTTP interop (http feature)"
-cargo test -p bicmath-cli --features http
+cargo test -p bicmath --features http
 
 echo "==> feature matrix"
 cargo build -p bicmath-engine --no-default-features --features arithmetic
@@ -26,7 +26,7 @@ cargo build -p bicmath-engine --no-default-features
 cargo build --workspace
 
 echo "==> generated docs are current"
-cargo run -q -p bicmath-cli -- docs --out docs/methods >/dev/null 2>&1
+cargo run -q -p bicmath -- docs --out docs/methods >/dev/null 2>&1
 if command -v git >/dev/null 2>&1 && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   git diff --exit-code -- docs/methods
 fi

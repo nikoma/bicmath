@@ -460,10 +460,9 @@ pub fn run_batch(
     let outputs: Vec<NodeResult> = requested
         .into_iter()
         .map(|name| {
-            node_results
-                .get(&name)
-                .cloned()
-                .ok_or_else(|| EngineError::internal(format!("missing output node result for {name:?}")))
+            node_results.get(&name).cloned().ok_or_else(|| {
+                EngineError::internal(format!("missing output node result for {name:?}"))
+            })
         })
         .collect::<Result<Vec<_>, _>>()?;
 
