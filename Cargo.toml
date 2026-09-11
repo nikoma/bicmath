@@ -91,3 +91,11 @@ strip = "debuginfo"
 
 [profile.bench]
 lto = "thin"
+
+[package]
+name = "bicdb"
+version = "0.1.0"
+
+[[bin]]
+name = "bicdb"
+path = "src/main.rs"
