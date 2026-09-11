@@ -1,0 +1,70 @@
+# Rust build output
+/target/
+fuzz/target/
+**/*.rs.bk
+*.pdb
+*.dSYM/
+*.profraw
+*.profdata
+
+# Cargo.lock is intentionally committed: BicMath ships applications
+# (the CLI and MCP server), so reproducible builds require the lockfile.
+
+# Generated WASM bindings and packages (rebuild with scripts/build-wasm.sh)
+/examples/wasm/pkg-web/
+/examples/wasm/pkg-node/
+/pkg/
+/wasm/pkg/
+/dist/
+
+# Fuzzing output (targets live in fuzz/; corpora and crashes are local)
+fuzz/corpus/
+fuzz/artifacts/
+fuzz/coverage/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local configuration, secrets, and scratch files
+.env
+.env.*
+!.env.example
+*.local
+.tmp/
+tmp/
+
+# Logs and diagnostics
+*.log
+coverage/
+lcov.info
+tarpaulin-report.*
+mutants.out/
+junit.xml
+
+# Release artifacts
+bicmath-*.tar.gz
+bicmath-*.zip
+*.sha256
+
+# Editors and IDEs
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# Operating systems
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Patch leftovers
+*.orig
+*.rej

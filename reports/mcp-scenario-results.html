@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BicMath MCP Scenario Results</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --muted: #5a5a5a;
+    --line: #d8d8d8;
+    --bg: #ffffff;
+    --code-bg: #f4f4f4;
+    --exact: #0a7a35;
+    --rounded: #9a6700;
+    --approx: #b42318;
+    --error-bg: #fdf3f2;
+    --error-line: #e7b4ae;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0 auto;
+    max-width: 60rem;
+    padding: 2.5rem 1.5rem 5rem;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  h1 { font-size: 1.7rem; margin: 0 0 0.25rem; }
+  h2 { font-size: 1.25rem; margin: 2.6rem 0 0.6rem; padding-bottom: 0.35rem; border-bottom: 2px solid var(--line); }
+  h3 { font-size: 1.02rem; margin: 1.4rem 0 0.5rem; }
+  p { margin: 0.55rem 0; }
+  .meta { color: var(--muted); font-size: 0.92rem; }
+  .meta code, code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  code { background: var(--code-bg); padding: 0.08rem 0.3rem; border-radius: 4px; font-size: 0.92em; }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.7rem 0.9rem;
+    overflow-x: auto;
+    font-size: 0.9rem;
+  }
+  table { border-collapse: collapse; width: 100%; margin: 0.7rem 0 0.9rem; font-size: 0.94rem; }
+  caption { text-align: left; color: var(--muted); font-size: 0.88rem; padding-bottom: 0.3rem; }
+  th, td { border: 1px solid var(--line); padding: 0.42rem 0.6rem; text-align: left; vertical-align: top; }
+  th { background: #f7f7f7; font-weight: 600; }
+  td.num, th.num { text-align: right; white-space: nowrap; }
+  .badge { display: inline-block; padding: 0.05rem 0.45rem; border-radius: 999px; font-size: 0.78rem; font-weight: 600; border: 1px solid; }
+  .badge.exact { color: var(--exact); border-color: var(--exact); background: #eefaf1; }
+  .badge.rounded { color: var(--rounded); border-color: var(--rounded); background: #fdf7e8; }
+  .badge.approx { color: var(--approx); border-color: var(--approx); background: #fdeeed; }
+  .error {
+    background: var(--error-bg);
+    border: 1px solid var(--error-line);
+    border-left: 4px solid var(--approx);
+    border-radius: 6px;
+    padding: 0.6rem 0.8rem;
+    margin: 0.6rem 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.88rem;
+    white-space: pre-wrap;
+  }
+  .note { color: var(--muted); font-size: 0.9rem; }
+  .kpi { font-weight: 700; }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+
+<h1>BicMath MCP scenario results</h1>
+<p class="meta">
+  Live run against the BicMath MCP server over Streamable HTTP.
+  Server: <code>bicmath 0.1.0</code> · protocol <code>2025-11-25</code> · engine modules arithmetic, scientific, statistics, finance, units, linear_algebra.
+  Values are copied verbatim from the result envelopes; exactness labels come from the engine.
+</p>
+
+<h2>1. Exact arithmetic</h2>
+<table>
+  <thead>
+    <tr><th>Expression</th><th>Result</th><th>Representation</th><th>Exactness</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>9007199254740993.10 + 0.20</code></td>
+      <td class="num"><code>9007199254740993.30</code></td>
+      <td>decimal (scale preserved)</td>
+      <td><span class="badge exact">exact</span></td>
+    </tr>
+    <tr>
+      <td><code>1/3 + 1/6</code></td>
+      <td class="num"><code>1/2</code> (numerator 1, denominator 2)</td>
+      <td>rational, normalized</td>
+      <td><span class="badge exact">exact</span></td>
+    </tr>
+  </tbody>
+</table>
+<p class="note">No float64 was involved. The decimal path preserves the declared scale; the rational path reduces 3/6 to 1/2.</p>
+
+<h2>2. Rounding and money allocation</h2>
+
+<h3>Half-even rounding to two decimal places</h3>
+<table>
+  <thead><tr><th>Input</th><th class="num">Result</th><th>Exactness</th></tr></thead>
+  <tbody>
+    <tr><td><code>1.005</code></td><td class="num"><code>1.00</code></td><td><span class="badge rounded">rounded</span></td></tr>
+    <tr><td><code>1.015</code></td><td class="num"><code>1.02</code></td><td><span class="badge rounded">rounded</span></td></tr>
+    <tr><td><code>-1.005</code></td><td class="num"><code>-1.00</code></td><td><span class="badge rounded">rounded</span></td></tr>
+    <tr><td><code>-1.015</code></td><td class="num"><code>-1.02</code></td><td><span class="badge rounded">rounded</span></td></tr>
+  </tbody>
+</table>
+
+<h3>Allocate USD 0.01 equally among three recipients (settlement scale 2)</h3>
+<table>
+  <thead><tr><th>Recipient</th><th class="num">Share</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td class="num">USD 0.01</td></tr>
+    <tr><td>2</td><td class="num">USD 0.00</td></tr>
+    <tr><td>3</td><td class="num">USD 0.00</td></tr>
+    <tr><th>Sum (verified)</th><th class="num">USD 0.01 <span class="badge exact">exact</span></th></tr>
+  </tbody>
+</table>
+<p><strong>Tie-breaking policy (documented and returned by BicMath):</strong> each exact share is floored to minor units; the remaining minor units are distributed one at a time to recipients ordered by <strong>descending fractional remainder</strong>, with ties broken by <strong>ascending index</strong>. This largest-remainder rule is deterministic and makes the shares sum exactly to the original total. Here all three remainders tie, so recipient&nbsp;1 receives the single cent.</p>
+
+<h2>3. Basic statistics with traps</h2>
+<table>
+  <thead><tr><th>Statistic</th><th>Input</th><th class="num">Result</th><th>Denominator convention</th><th>Exactness</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>Median</td>
+      <td><code>[2, 10, 30, 100, 1000]</code></td>
+      <td class="num"><code>30</code></td>
+      <td>middle order statistic (odd count)</td>
+      <td><span class="badge exact">exact</span></td>
+    </tr>
+    <tr>
+      <td>Population variance</td>
+      <td><code>[1, 2, 3]</code>, <code>ddof = 0</code></td>
+      <td class="num"><code>2/3</code></td>
+      <td><code>n = 3</code></td>
+      <td><span class="badge exact">exact</span></td>
+    </tr>
+    <tr>
+      <td>Sample variance</td>
+      <td><code>[1, 2, 3]</code>, <code>ddof = 1</code></td>
+      <td class="num"><code>1</code></td>
+      <td><code>n − 1 = 2</code></td>
+      <td><span class="badge exact">exact</span></td>
+    </tr>
+    <tr>
+      <td>Weighted mean</td>
+      <td><code>[10, 20, 80]</code>, weights <code>[1, 2, 1]</code>, frequency</td>
+      <td class="num"><code>65/2 = 32.5</code></td>
+      <td>sum of weights <code>4</code></td>
+      <td><span class="badge exact">exact</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>4. Campaign economics (exact)</h2>
+<p>Stated point estimates: USD 0.12 per beginner, USD 1.425 per advanced student; 30,000 beginners and 10,000 advanced; 80% treated; USD 12,000 fixed cost paid in full.</p>
+<table>
+  <thead><tr><th>Quantity</th><th>Calculation</th><th class="num">Value</th></tr></thead>
+  <tbody>
+    <tr><td>Beginner contribution</td><td>30,000 × 0.12</td><td class="num">3,600.00</td></tr>
+    <tr><td>Advanced contribution</td><td>10,000 × 1.425</td><td class="num">14,250.000</td></tr>
+    <tr><td><span class="kpi">Incremental contribution before fixed cost</span></td><td>sum</td><td class="num kpi">17,850.000</td></tr>
+    <tr><td>At 80% treated</td><td>17,850 × 0.8</td><td class="num">14,280.0000</td></tr>
+    <tr><td><span class="kpi">Net incremental contribution after fixed cost</span></td><td>14,280 − 12,000</td><td class="num kpi">2,280.0000</td></tr>
+    <tr><td><span class="kpi">Contribution forgone vs treating everyone</span></td><td>20% of 17,850</td><td class="num kpi">3,570.0000</td></tr>
+    <tr><td><span class="kpi">Minimum common treatment fraction to break even</span></td><td>12,000 ÷ 17,850</td><td class="num kpi">80/119 ≈ 0.6722689075630252100840336134453782 (67.23%)</td></tr>
+  </tbody>
+</table>
+<p class="note">All values are exact decimal/rational results. These are point estimates under the stated assumptions; they do not prove profitability.</p>
+
+<h2>5. Cash-flow timing</h2>
+<p>Investment of USD 1,000 at time zero; returns of USD 600 at t = 1 and t = 2; annual effective rate 10%.</p>
+<pre>NPV = −1000 + 600/1.1 + 600/1.1²</pre>
+<table>
+  <thead><tr><th>Form</th><th>Value</th><th>Exactness</th></tr></thead>
+  <tbody>
+    <tr><td>Exact rational (unrounded)</td><td><code>5000/121</code></td><td><span class="badge exact">exact</span></td></tr>
+    <tr><td>Unrounded decimal (34 significant digits)</td><td><code>41.32231404958677685950413223140496</code></td><td><span class="badge rounded">rounded</span></td></tr>
+    <tr><td>Settled to cents (USD)</td><td><code>USD 41.32</code></td><td><span class="badge rounded">rounded</span></td></tr>
+  </tbody>
+</table>
+<p class="note">Timing parameter <code>first_cashflow_at_t0</code> places the initial investment at time zero explicitly.</p>
+
+<h2>6. Multiple IRRs</h2>
+<p>Annual cash flows <code>[−100, 230, −132]</code> beginning at time zero. Two sign changes; the polynomial in <code>x = 1/(1+r)</code> is <code>66x² − 115x + 50 = 0</code>, giving roots at exactly 10% and 20%.</p>
+<table>
+  <thead><tr><th>Search bracket</th><th class="num">Root found</th><th>Method</th><th class="num">Iterations</th><th class="num">Residual</th><th>Converged</th></tr></thead>
+  <tbody>
+    <tr><td>5% – 15%</td><td class="num"><code>0.09999999999999984</code></td><td>brent</td><td class="num">10</td><td class="num">1.42e-14</td><td>yes</td></tr>
+    <tr><td>15% – 25%</td><td class="num"><code>0.20000000000000856</code></td><td>brent</td><td class="num">9</td><td class="num">−5.68e-14</td><td>yes</td></tr>
+  </tbody>
+</table>
+<table>
+  <thead><tr><th>Verification</th><th class="num">Exact NPV</th><th>Interpretation</th></tr></thead>
+  <tbody>
+    <tr><td>NPV at 10%</td><td class="num"><code>0/1</code> (exactly zero)</td><td>root confirmed</td></tr>
+    <tr><td>NPV at 20%</td><td class="num"><code>0/1</code> (exactly zero)</td><td>root confirmed</td></tr>
+  </tbody>
+</table>
+<p><strong>Interpretation:</strong> this investment has <strong>two IRRs (10% and 20%)</strong>. Reporting a single unqualified “the IRR” would not accurately describe it; the discount rate at which NPV is zero is not unique. <code>multiple_roots_suspected</code> is <code>false</code> because each supplied bracket contains exactly one root — the function does not claim uniqueness outside the bracket it searched.</p>
+
+<h2>7. Extreme probabilities</h2>
+<table>
+  <thead><tr><th>Quantity</th><th class="num">Value</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><code>P(Z &gt; 8)</code> via <code>statistics.normal_sf</code></td>
+      <td class="num"><code>6.220960574271834e-16</code></td>
+      <td>float64, <span class="badge approx">approximate</span></td>
+    </tr>
+    <tr>
+      <td><code>normal_cdf(8)</code> for contrast</td>
+      <td class="num"><code>0.9999999999999993</code></td>
+      <td><code>1 − cdf</code> would collapse the tail to zero</td>
+    </tr>
+    <tr>
+      <td>Independent libm <code>erfc</code> reference</td>
+      <td class="num"><code>6.220960574271820e-16</code></td>
+      <td>relative difference ≈ 2.2e-15</td>
+    </tr>
+  </tbody>
+</table>
+<p><strong>Method used:</strong> the descriptor documents <code>sf(x) = P(X &gt; x) = 0.5 · erfc((x − mean) / (sd · √2))</code>, computed from <code>erfc</code> directly — never as <code>1 − cdf</code> — so large positive x keeps relative accuracy.</p>
+<p class="note"><strong>Numerical limitation:</strong> the result is binary64 and approximate; the last few significant digits differ from an independent reference (relative error ≈ 2.2e-15). The tool does not attach a formal error bound to this result, and the probability is not rounded to zero.</p>
+
+<h2>8. Linear algebra</h2>
+
+<h3>System 1: <code>3x + 2y = 7</code>, <code>x + 2y = 5</code></h3>
+<table>
+  <thead><tr><th>Field</th><th>Value</th></tr></thead>
+  <tbody>
+    <tr><td>Solution</td><td><code>x = 1</code>, <code>y = 2</code> (exact integers)</td></tr>
+    <tr><td>Residual (∞-norm)</td><td><code>0</code></td></tr>
+    <tr><td>Method</td><td><code>rational_gaussian_elimination_partial_pivot</code></td></tr>
+    <tr><td>Exactness</td><td><span class="badge exact">exact</span></td></tr>
+  </tbody>
+</table>
+
+<h3>System 2: <code>x + 2y = 3</code>, <code>2x + 4y = 6</code></h3>
+<table>
+  <thead><tr><th>Request</th><th>Response</th></tr></thead>
+  <tbody>
+    <tr><td>Determinant</td><td><code>0</code> (exact integer)</td></tr>
+    <tr><td>Solve</td><td>structured error (below)</td></tr>
+  </tbody>
+</table>
+<div class="error">{"code": "singular_matrix", "message": "matrix is singular at pivot column 1", "details": {"pivot_column": 1}}</div>
+<p>The second equation is twice the first, so the system is consistent but underdetermined: there are <strong>infinitely many solutions</strong> (<code>x = 3 − 2y</code> for any <code>y</code>) and <strong>no unique solution</strong>. BicMath returned the structured singular-matrix error; it did not fabricate a solution.</p>
+
+<h2>9. Units and dimensions</h2>
+<table>
+  <thead><tr><th>Conversion</th><th class="num">Result</th><th>Exactness / notes</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>Absolute temperature: 0 °C → K</td>
+      <td class="num"><code>273.15 K</code></td>
+      <td><span class="badge exact">exact</span>; affine offset applied</td>
+    </tr>
+    <tr>
+      <td>Temperature increase: 10 °C → K difference</td>
+      <td class="num"><code>10 K</code></td>
+      <td><span class="badge exact">exact</span>; assumption <code>temperature_delta</code></td>
+    </tr>
+    <tr>
+      <td>5 kg → meters</td>
+      <td class="num">error</td>
+      <td><span class="badge approx">incompatible_units</span></td>
+    </tr>
+  </tbody>
+</table>
+<div class="error">{"code": "incompatible_units", "message": "cannot convert from kilogram (kg) to meter (m)"}</div>
+<p><strong>Why absolute and delta must be distinguished:</strong> the Celsius→Kelvin conversion is <em>affine</em> — it adds 273.15 to an absolute temperature. A temperature <em>increase</em> is a pure scale conversion (factor 1 for °C→K), so applying the offset would wrongly turn a 10 °C increase into 283.15 K. BicMath exposes <code>units.temperature_difference</code> for the delta case and records the <code>temperature_delta</code> assumption.</p>
+
+<h2>10. Errors and recovery</h2>
+<table>
+  <thead><tr><th>Request</th><th>Code</th><th>Actual response</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><code>1 / 0</code></td>
+      <td><code>division_by_zero</code></td>
+      <td>“division by zero (integer / integer)”</td>
+    </tr>
+    <tr>
+      <td>mean of <code>[]</code></td>
+      <td><code>insufficient_observations</code></td>
+      <td>“mean requires at least one observation”</td>
+    </tr>
+    <tr>
+      <td><code>arcsin(2)</code> in real mode</td>
+      <td><code>domain_violation</code></td>
+      <td>“asin requires |x| &lt;= 1” (path <code>x</code>)</td>
+    </tr>
+    <tr>
+      <td>USD 10 + INR 20 (no rate)</td>
+      <td><code>currency_mismatch</code></td>
+      <td>“currency mismatch: expected USD, found INR” (details <code>{expected: USD, found: INR}</code>)</td>
+    </tr>
+    <tr>
+      <td>Recovery: <code>2 + 3</code></td>
+      <td>—</td>
+      <td><code>5</code>, <span class="badge exact">exact</span> — server fully usable after the four invalid requests</td>
+    </tr>
+  </tbody>
+</table>
+<p class="note">All failures returned <code>isError: true</code> with a structured body (<code>code</code>, <code>message</code>, optional <code>path</code>/<code>details</code>), and none carried a fabricated result.</p>
+
+<footer>
+  Generated from a live MCP session against <code>bicmath 0.1.0</code> (protocol 2025-11-25).
+  Reproduce with the scenario script against a running server:
+  <code>./target/debug/bicmath serve --transport http --bind 127.0.0.1:8099</code>.
+  BicMath™ is a trademark of Nikolai Manek.
+</footer>
+
+</body>
+</html>

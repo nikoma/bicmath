@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: -D warnings
+
+jobs:
+  checks:
+    name: fmt, clippy, tests, feature matrix
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.96.0
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      - name: Format
+        run: cargo fmt --all -- --check
+      - name: Clippy
+        run: cargo clippy --workspace --all-targets -- -D warnings
+      - name: Tests
+        run: cargo test --workspace
+      - name: Doc tests
+        run: cargo test --workspace --doc
+      - name: Feature matrix
+        run: |
+          cargo build -p bicmath-engine --no-default-features --features arithmetic
+          cargo build -p bicmath-engine --no-default-features --features arithmetic,scientific,units
+          cargo build -p bicmath-engine --no-default-features --features arithmetic,statistics,finance
+          cargo build -p bicmath-engine --no-default-features
+          cargo build --workspace
+      - name: HTTP feature
+        run: cargo build -p bicmath-cli --features http
+      - name: Generated docs are current
+        run: |
+          cargo run -q -p bicmath-cli -- docs --out docs/methods
+          git diff --exit-code -- docs/methods
+      - name: License report is current
+        run: |
+          ./scripts/license-report.sh
+          git diff --exit-code -- THIRD_PARTY_LICENSES.md
+
+  mcp-interop:
+    name: MCP stdio interoperability
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.96.0
+      - uses: Swatinem/rust-cache@v2
+      - name: Legacy and modern lifecycles
+        run: cargo test -p bicmath-cli --test mcp_stdio
+
+  wasm:
+    name: WASM build and JS smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.96.0
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install wasm-bindgen CLI
+        run: cargo install wasm-bindgen-cli --version 0.2.126 --locked
+      - name: Build bindings
+        run: ./scripts/build-wasm.sh
+      - name: Node smoke test
+        run: node examples/wasm/smoke.cjs
+
+  deny:
+    name: dependency and license policy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.96.0
+      - uses: EmbarkStudios/cargo-deny-action@v2
+        with:
+          command: check advisories licenses bans sources

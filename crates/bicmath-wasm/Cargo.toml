@@ -1,0 +1,19 @@
+[package]
+name = "bicmath-wasm"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Browser bindings around the BicMath engine."
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+bicmath-core.workspace = true
+bicmath-engine.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+wasm-bindgen.workspace = true
+serde-wasm-bindgen.workspace = true
+js-sys.workspace = true

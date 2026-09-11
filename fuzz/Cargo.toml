@@ -1,0 +1,37 @@
+[package]
+name = "bicmath-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2024"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+bicmath-core = { path = "../crates/bicmath-core" }
+bicmath-engine = { path = "../crates/bicmath-engine" }
+
+[[bin]]
+name = "expression"
+path = "fuzz_targets/expression.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "wire_value"
+path = "fuzz_targets/wire_value.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "batch"
+path = "fuzz_targets/batch.rs"
+test = false
+doc = false
+bench = false
+
+# Separate workspace so normal `cargo test` does not build libfuzzer targets.
+[workspace]

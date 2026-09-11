@@ -1,0 +1,93 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/bicmath-core",
+    "crates/bicmath-arithmetic",
+    "crates/bicmath-scientific",
+    "crates/bicmath-statistics",
+    "crates/bicmath-finance",
+    "crates/bicmath-units",
+    "crates/bicmath-linear-algebra",
+    "crates/bicmath-engine",
+    "crates/bicmath-mcp",
+    "crates/bicmath-cli",
+    "crates/bicmath-wasm",
+    "crates/bicmath-interval",
+    "crates/bicmath-verify",
+    "crates/bicmath-symbolic",
+    "crates/bicmath-optimize",
+    "crates/bicmath-algebra",
+    "crates/bicmath-geometry",
+    "crates/bicmath-business",
+    "crates/bicmath-format",
+    "crates/bicmath-plan",
+]
+default-members = [
+    "crates/bicmath-core",
+    "crates/bicmath-arithmetic",
+    "crates/bicmath-scientific",
+    "crates/bicmath-statistics",
+    "crates/bicmath-finance",
+    "crates/bicmath-units",
+    "crates/bicmath-linear-algebra",
+    "crates/bicmath-engine",
+    "crates/bicmath-mcp",
+    "crates/bicmath-cli",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+license = "MIT"
+authors = ["Nikolai Manek"]
+description = "A modular computation engine and MCP server for mathematics, statistics, science, and business finance."
+
+[workspace.dependencies]
+bicmath-core = { path = "crates/bicmath-core", version = "0.1.0" }
+bicmath-arithmetic = { path = "crates/bicmath-arithmetic", version = "0.1.0" }
+bicmath-scientific = { path = "crates/bicmath-scientific", version = "0.1.0" }
+bicmath-statistics = { path = "crates/bicmath-statistics", version = "0.1.0" }
+bicmath-finance = { path = "crates/bicmath-finance", version = "0.1.0" }
+bicmath-units = { path = "crates/bicmath-units", version = "0.1.0" }
+bicmath-linear-algebra = { path = "crates/bicmath-linear-algebra", version = "0.1.0" }
+bicmath-engine = { path = "crates/bicmath-engine", version = "0.1.0" }
+bicmath-mcp = { path = "crates/bicmath-mcp", version = "0.1.0" }
+bicmath-interval = { path = "crates/bicmath-interval", version = "0.1.0" }
+bicmath-verify = { path = "crates/bicmath-verify", version = "0.1.0" }
+bicmath-symbolic = { path = "crates/bicmath-symbolic", version = "0.1.0" }
+bicmath-optimize = { path = "crates/bicmath-optimize", version = "0.1.0" }
+bicmath-algebra = { path = "crates/bicmath-algebra", version = "0.1.0" }
+bicmath-geometry = { path = "crates/bicmath-geometry", version = "0.1.0" }
+bicmath-business = { path = "crates/bicmath-business", version = "0.1.0" }
+bicmath-format = { path = "crates/bicmath-format", version = "0.1.0" }
+bicmath-plan = { path = "crates/bicmath-plan", version = "0.1.0" }
+
+serde = { version = "1.0", features = ["derive"] }
+serde_json = { version = "1.0", features = ["arbitrary_precision"] }
+num-bigint = "0.4.6"
+num-rational = "0.4.2"
+num-integer = "0.1.46"
+num-traits = "0.2.19"
+thiserror = "2.0"
+sha2 = "0.11"
+clap = { version = "4.6", features = ["derive", "env"] }
+tokio = { version = "1.53", features = ["rt-multi-thread", "macros", "io-std", "io-util", "sync", "time", "signal", "process", "net"] }
+rmcp = { version = "=3.2.0", default-features = false }
+chrono = { version = "0.4.45", default-features = false, features = ["std", "clock", "alloc"] }
+wasm-bindgen = "=0.2.126"
+serde-wasm-bindgen = "0.6"
+js-sys = "=0.3.103"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+axum = { version = "0.8", default-features = false, features = ["http1", "tokio", "json", "query"] }
+tower = "0.5"
+libm = "0.2"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = "debuginfo"
+
+[profile.bench]
+lto = "thin"

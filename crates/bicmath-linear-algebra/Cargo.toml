@@ -1,0 +1,15 @@
+[package]
+name = "bicmath-linear-algebra"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Checked vectors, matrices, decompositions, and solving for BicMath."
+
+[dependencies]
+bicmath-core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+num-bigint.workspace = true
+num-rational.workspace = true
+num-traits.workspace = true

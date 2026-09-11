@@ -1,0 +1,23 @@
+[package]
+name = "bicmath-mcp"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "MCP transport and schema adapters for BicMath."
+
+[features]
+default = ["stdio"]
+stdio = ["rmcp/transport-io"]
+http = ["rmcp/transport-streamable-http-server", "dep:axum", "dep:tower"]
+
+[dependencies]
+bicmath-core.workspace = true
+bicmath-engine.workspace = true
+rmcp = { workspace = true, features = ["server"] }
+serde.workspace = true
+serde_json.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+axum = { workspace = true, optional = true }
+tower = { workspace = true, optional = true }

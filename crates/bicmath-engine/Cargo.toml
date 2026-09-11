@@ -1,0 +1,50 @@
+[package]
+name = "bicmath-engine"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Registry assembly, validation, expression evaluation, batches, and receipts for BicMath."
+
+[features]
+default = ["arithmetic", "scientific", "statistics", "finance", "units", "linear-algebra", "interval", "verify", "symbolic", "optimize", "algebra", "geometry", "business", "format", "plan"]
+arithmetic = ["dep:bicmath-arithmetic"]
+scientific = ["dep:bicmath-scientific"]
+statistics = ["dep:bicmath-statistics"]
+finance = ["dep:bicmath-finance"]
+units = ["dep:bicmath-units"]
+linear-algebra = ["dep:bicmath-linear-algebra"]
+plan = ["dep:bicmath-plan"]
+format = ["dep:bicmath-format"]
+business = ["dep:bicmath-business"]
+geometry = ["dep:bicmath-geometry"]
+algebra = ["dep:bicmath-algebra"]
+optimize = ["dep:bicmath-optimize"]
+symbolic = ["dep:bicmath-symbolic"]
+verify = ["dep:bicmath-verify"]
+interval = ["dep:bicmath-interval"]
+
+[dependencies]
+bicmath-core.workspace = true
+bicmath-arithmetic = { workspace = true, optional = true }
+bicmath-scientific = { workspace = true, optional = true }
+bicmath-statistics = { workspace = true, optional = true }
+bicmath-finance = { workspace = true, optional = true }
+bicmath-units = { workspace = true, optional = true }
+bicmath-linear-algebra = { workspace = true, optional = true }
+bicmath-interval = { workspace = true, optional = true }
+bicmath-verify = { workspace = true, optional = true }
+bicmath-symbolic = { workspace = true, optional = true }
+bicmath-optimize = { workspace = true, optional = true }
+bicmath-algebra = { workspace = true, optional = true }
+bicmath-geometry = { workspace = true, optional = true }
+bicmath-business = { workspace = true, optional = true }
+bicmath-format = { workspace = true, optional = true }
+bicmath-plan = { workspace = true, optional = true }
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+num-bigint.workspace = true
+num-rational.workspace = true
+num-traits.workspace = true
+thiserror.workspace = true

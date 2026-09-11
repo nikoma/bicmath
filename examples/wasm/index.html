@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BicMath offline WASM example</title>
+    <style>
+      body { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; margin: 2rem; max-width: 60rem; }
+      textarea { width: 100%; height: 8rem; }
+      pre { background: #f4f4f4; padding: 0.75rem; overflow-x: auto; }
+      button { margin-right: 0.5rem; margin-bottom: 0.5rem; }
+      .note { color: #555; }
+    </style>
+  </head>
+  <body>
+    <h1>BicMath in the browser (offline)</h1>
+    <p class="note">
+      No network, no account, no server. The page runs the same Rust engine as the
+      native MCP server. Serve this directory over HTTP (for example
+      <code>python3 -m http.server 8000</code>) because ES modules and WASM
+      cannot be loaded from <code>file://</code>.
+    </p>
+    <button id="exact">0.1 + 0.2 (exact)</button>
+    <button id="big">9007199254740993 + 1</button>
+    <button id="median">median([1,2,10,100])</button>
+    <button id="worker">Run in a Web Worker</button>
+    <button id="doctor">Doctor (all six modules)</button>
+    <h2>Request</h2>
+    <textarea id="request">{
+  "expression": "finance.npv(rate = 0.08, cashflows = [-10000, 4000, 4000, 4000], currency = \"USD\")"
+}</textarea>
+    <h2>Result</h2>
+    <pre id="output">loading wasm…</pre>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+[package]
+name = "bicmath-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Core numeric contract, values, schemas, limits, and function contracts for BicMath."
+repository = "https://example.invalid/bicmath"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+num-bigint.workspace = true
+num-rational.workspace = true
+num-integer.workspace = true
+num-traits.workspace = true
+sha2.workspace = true
+thiserror.workspace = true

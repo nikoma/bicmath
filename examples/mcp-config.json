@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "bicmath": {
+      "command": "/absolute/path/to/bicmath",
+      "args": ["serve", "--transport", "stdio"],
+      "env": {
+        "BICMATH_LOG": "warn"
+      }
+    }
+  }
+}
